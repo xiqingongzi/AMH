@@ -3,7 +3,7 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object accounts 管理员数据模型
+ * @param Object accounts Admin Data Model
  * Update:2013-11-01
  * 
  */
@@ -11,7 +11,7 @@
 class accounts extends AmysqlModel
 {
 
-	// 更改密码
+	// Change Password
 	function change_pass($user_password)
 	{
 		$user_name = $_SESSION['amh_user_name'];
@@ -22,7 +22,7 @@ class accounts extends AmysqlModel
 	}
 	
 
-	// 日志列表
+	// Log List
 	function log_list($page = 1, $page_sum = 20)
 	{
 		$where = '';
@@ -52,7 +52,7 @@ class accounts extends AmysqlModel
 		Return array('data' => $this -> _all($sql), 'sum' => $sum);
 	}
 
-	// 登录记录列表
+	//  Login Log List
 	function login_list($page = 1, $page_sum = 20)
 	{
 		$where = '';
