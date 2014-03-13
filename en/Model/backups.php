@@ -2,7 +2,7 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object backups 面板备份数据模型
+ * @param Object backups Panel BackUp Model
  * Update:2013-11-01
  * 
  */
@@ -10,7 +10,7 @@
 class backups extends AmysqlModel
 {
 
-	// 取得列表
+	// Get list
 	function get_backup_list($page = 1, $page_sum = 20)
 	{
 		$sql = "SELECT * FROM amh_backup_list";
@@ -20,7 +20,7 @@ class backups extends AmysqlModel
 		$sql = "SELECT * FROM amh_backup_list ORDER BY backup_id ASC $limit";
 		Return array('data' => $this -> _all($sql), 'sum' => $sum);
 	}
-	// 取得指定备份
+	// Get Backup
 	function get_backup($id = null, $backup_file = null)
 	{
 		$where = '';
@@ -29,7 +29,7 @@ class backups extends AmysqlModel
 		$sql = "SELECT * FROM amh_backup_list WHERE 1 $where ";
 		Return $this -> _row($sql);
 	}
-	// 更新列表
+	// UpdateList
 	function backup_list_update()
 	{
 		$cmd = 'amh ls_backup';
@@ -73,14 +73,14 @@ class backups extends AmysqlModel
 		}
 
 	}
-	// 远程配置列表
+	// Remote Set List
 	function backup_remote_list()
 	{
 		$sql = "SELECT * FROM amh_backup_remote ORDER BY remote_id ASC ";
 		Return $this -> _all($sql);	
 	}
 
-	// 保存远程配置
+	// Save Remote List
 	function backup_remote_insert()
 	{
 		$data_name = array('remote_type', 'remote_status', 'remote_ip', 'remote_path', 'remote_user', 'remote_pass_type', 'remote_password', 'remote_comment');
@@ -89,7 +89,7 @@ class backups extends AmysqlModel
 		Return $this -> _insert('amh_backup_remote', $insert_data);
 	}
 
-	// 编辑保存远程配置
+	// Update Remote List
 	function backup_remote_update()
 	{
 		$data_name = array('remote_type', 'remote_status', 'remote_ip', 'remote_path', 'remote_user', 'remote_pass_type', 'remote_password', 'remote_comment');
@@ -101,14 +101,14 @@ class backups extends AmysqlModel
 		Return $this -> _update('amh_backup_remote', $insert_data,  " WHERE remote_id = '$_POST[remote_id]' ");
 	}
 	
-	// 取得远程配置
+	// Get Remote Setting
 	function get_backup_remote($remote_id)
 	{
 		$sql = "SELECT * FROM amh_backup_remote WHERE remote_id = '$remote_id'";
 		Return $this -> _row($sql);
 	}
 
-	// 删除远程配置
+	// Del Remote Setting
 	function backup_remote_del($remote_id)
 	{
 		$sql = "DELETE FROM amh_backup_remote WHERE remote_id = '$remote_id'";

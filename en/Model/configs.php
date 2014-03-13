@@ -3,14 +3,14 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object configs 面板配置数据模型
+ * @param Object configs Panel Config Model
  * Update:2013-11-01
  * 
  */
 
 class configs extends AmysqlModel
 {
-	// 运行的主机
+	// Running Vhost
 	function get_amh_domain_list()
 	{
 		$host_list = $_SERVER['SERVER_ADDR'] . ',';
@@ -28,10 +28,10 @@ class configs extends AmysqlModel
 				$host_list .= str_replace(' ', ',', trim($host_server_name[1])) . ',';
 			}
 		}
-		Return array_flip(array_flip(explode(',', trim($host_list, ','))));	// 排除重复返回
+		Return array_flip(array_flip(explode(',', trim($host_list, ','))));	// Return Items Without Repeat
 	}
 
-	// 取得系统配置
+	// Get System Settings
 	function get_amh_config()
 	{
 		$sql = "SELECT * FROM amh_config";
@@ -51,7 +51,7 @@ class configs extends AmysqlModel
 		Return $data;
 	}
 
-	// 更新系统配置
+	// Update System Settings
 	function up_amh_config()
 	{
 		$data_name = array('HelpDoc', 'LoginErrorLimit', 'VerifyCode', 'AMHListen', 'AMHDomain', 'OpenCSRF', 'OpenMenu');
@@ -82,7 +82,7 @@ class configs extends AmysqlModel
 	}
 
 
-	// 取得升级列表
+	// Get Upgrade List
 	function get_upgrade_list($get_type = 'all')
 	{
 		$cmd = 'amh upgrade list';
@@ -98,7 +98,7 @@ class configs extends AmysqlModel
 			'AMH-UpgradeUrl',
 			'AMH-UpgradeScriptBy',
 		);
-		$grade_cn = array('Low' => '较低', 'Medium' => '一般', 'High' => '重要');
+		$grade_cn = array('Low' => 'Patch', 'Medium' => 'Normal', 'High' => 'Important');
 		$grade_color = array('Low' => '#333300', 'Medium' => '#669900', 'High' => '#FF6600');
 
 		$data = array();
@@ -141,7 +141,7 @@ class configs extends AmysqlModel
 	}
 
 
-	// 取得更新提示
+	// Get Upgrade Notice
 	function get_upgrade_notice()
 	{
 		$cmd = 'amh upgrade list';
