@@ -3,7 +3,7 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object modules 模块扩展数据模型
+ * @param Object modules Modules Extension数据模型
  * Update:2013-11-01
  * 
  */
@@ -11,7 +11,7 @@
 class modules extends AmysqlModel
 {
 	
-	// 取得模块列表数据
+	// GetModulesListData
 	function get_module_list_data($page = 1, $page_sum = 5)
 	{
 		$cmd = 'amh ls_modules';
@@ -90,7 +90,7 @@ class modules extends AmysqlModel
 		Return array('data' => $module_data, 'sum' => $sum);
 	}
 
-	// 下载模块
+	// Download Modules
 	function module_download($name)
 	{
 		$cmd = "amh module download $name";
@@ -99,7 +99,7 @@ class modules extends AmysqlModel
 		Return array(!$status, $tmp);
 	}
 
-	// 删除模块
+	// Delete Modules
 	function module_delete($name)
 	{
 		$cmd = "amh module $name delete y";
@@ -108,7 +108,7 @@ class modules extends AmysqlModel
 		Return !$status;
 	}
 
-	// 取得最新模块
+	// Get New Modules
 	function get_new_module_list($page = 1, $page_sum = 5)
 	{
 		$cmd = 'amh ls_modules';
@@ -125,7 +125,7 @@ class modules extends AmysqlModel
 		if (empty($data) || !is_array($data) || count($data) == 0)
 			Return array('data' => array(), 'sum' => 0);
 
-		// 搜索模块
+		// SearchModules
 		if (isset($_GET['m_txt']) && !empty($_GET['m_txt']))
 		{
 			foreach ($data as $key=>$val)
