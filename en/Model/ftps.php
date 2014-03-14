@@ -3,7 +3,7 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object ftps FTP管理数据模型
+ * @param Object ftps FTP Control Model
  * Update:2013-11-01
  * 
  */
@@ -11,21 +11,21 @@
 class ftps extends AmysqlModel
 {
 	
-	// FTP列表
+	// FTP List
 	function ftp_list()
 	{
 		$sql = "SELECT * FROM amh_ftp ORDER BY ftp_id ASC";
 		Return $this -> _all($sql);
 	}
 
-	// 取得FTP
+	// Get FTP
 	function get_ftp($ftp_name)
 	{
 		$sql = "SELECT * FROM amh_ftp WHERE ftp_name = '$ftp_name'";
 		Return $this -> _row($sql);
 	}
 
-	// FTP新增
+	// FTP Add
 	function ftp_insert($data)
 	{
 		$data['ftp_password'] = md5(md5($data['ftp_password']));
@@ -36,21 +36,21 @@ class ftps extends AmysqlModel
 		Return $this -> _insert('amh_ftp', $insert_data);
 	}
 
-	// FTP新增(ssh)
+	// FTP Add (ssh)
 	function ftp_insert_ssh()
 	{
 		if($_POST['ftp_root'] == 'index' || strpos($_POST['ftp_root'], '..') !== false || strpos($_POST['ftp_root'], '/') !== false ) 
-			Return array(false, array('禁止使用的根目录。')); 
+			Return array(false, array('Use Root Directory Is Baned.')); 
 
 		$data_name = array('ftp_name', 'ftp_password', 'ftp_root', 'ftp_upload_bandwidth', 'ftp_download_bandwidth', 'ftp_upload_ratio', 'ftp_download_ratio', 'ftp_max_files', 'ftp_max_mbytes', 'ftp_max_concurrent', 'ftp_allow_time', 'ftp_uid_name');
 		$_POST['ftp_root'] = '/home/wwwroot/' . $_POST['ftp_root'] . '/web';
 
 		if (!is_dir($_POST['ftp_root']))
-			Return array(false, array('根目录不存在。')); 
+			Return array(false, array('Root Directory Is Not Exist.')); 
 
 		$get_ftp = $this -> get_ftp($_POST['ftp_name']);
 		if (isset($get_ftp['ftp_name']))
-			Return array(false, array('已存在账号。')); 
+			Return array(false, array('This Account Is Already Used.')); 
 			
 		$cmd = 'amh ftp add';
 		foreach ($data_name as $key=>$val)
@@ -61,10 +61,11 @@ class ftps extends AmysqlModel
 		Return array(!$status, $tmp);
 	}
 
-	// FTP更新列表
+	// Update Ftp List
 	function ftp_update($ftp_list_ssh)
 	{
 		// 取得对应权限uid用户名称与目录所属用户
+		// Get Auth Id Username and Directory Own user
 		$ftp_uidname_list = shell_exec("amh ftp list");
 		preg_match_all('/(.*) : (.*) : (.*) : (.*)/', $ftp_uidname_list, $ftp_uidname_arr); 
 		if (is_array($ftp_uidname_arr[1]))
@@ -124,18 +125,18 @@ class ftps extends AmysqlModel
 		}
 	}
 
-	// 编辑FTP
+	// Edit FTP
 	function edit_ftp()
 	{
 
 		if($_POST['ftp_root'] == 'index' || strpos($_POST['ftp_root'], '..') !== false || strpos($_POST['ftp_root'], '/') !== false ) 
-			Return ' 禁止使用的根目录。';
+			Return ' Directory Is Baned。';
 
 		$data_name = array('ftp_name', 'ftp_password', 'ftp_root', 'ftp_upload_bandwidth', 'ftp_download_bandwidth', 'ftp_upload_ratio', 'ftp_download_ratio', 'ftp_max_files', 'ftp_max_mbytes', 'ftp_max_concurrent', 'ftp_allow_time', 'ftp_uid_name');
 		$_POST['ftp_root'] = '/home/wwwroot/' . $_POST['ftp_root'] . '/web';
 
 		if (!is_dir($_POST['ftp_root']))
-			Return ' 根目录不存在。';
+			Return ' Root Directory Is Not exist.';
 
 
 		$cmd = 'amh ftp edit';
@@ -160,7 +161,7 @@ class ftps extends AmysqlModel
 	}
 
 
-	// 删除FTP(ssh)
+	// Delete FTP(ssh)
 	function ftp_del_ssh($del_name)
 	{
 		$cmd = "amh ftp del $del_name";
@@ -169,7 +170,7 @@ class ftps extends AmysqlModel
 		Return array(!$status, $tmp);
 	}
 	
-	// 重写目录权限
+	// ReChown Directory
 	function ftp_chown_ssh($chown_name)
 	{
 		$cmd = "amh ftp chown $chown_name y";
