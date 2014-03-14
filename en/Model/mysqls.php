@@ -3,7 +3,7 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object mysqls MySQL管理数据模型
+ * @param Object mysqls MySQL Control Model
  * Update:2013-11-01
  * 
  */
@@ -12,7 +12,7 @@ class mysqls extends AmysqlModel
 {
 	public $databases_systems_list = array('amh', 'mysql', 'information_schema', 'performance_schema');
 
-	// 数据库列表
+	// Databases List
 	function databases()
 	{
 		$sql = "SHOW COLLATION";
@@ -49,7 +49,7 @@ class mysqls extends AmysqlModel
 		Return $data_all;
 	}
 
-	// 进行排序
+	// Sort databases
 	function databases_sort($a, $b)
 	{
 		if ($a['Database'] == $b['Database']) 
@@ -57,13 +57,13 @@ class mysqls extends AmysqlModel
 		Return ($a['Database'] < $b['Database']) ? -1 : 1;
 	}
 
-	// 删除数据库
+	// Del Databases 
 	function del_database($db_name)
 	{
 		$sql = "DROP DATABASE `$db_name`";
 		Return $this -> _query($sql);
 	}
-	// 清空数据库
+	// Drop Databases 
 	function empty_database($db_name)
 	{
 		$status = false;
@@ -84,7 +84,7 @@ class mysqls extends AmysqlModel
 	}
 
 
-	// 取得php配置参数值
+	// Get Mysql Setting Parameters
 	function get_mysql_param($param_list)
 	{
 		$cmd = "amh cat_my_cnf";
@@ -103,7 +103,7 @@ class mysqls extends AmysqlModel
 		Return $param_list;
 	}
 
-	// 创建数据库
+	// Create Databases 
 	function create_database($dbname, $character)
 	{
 		$character_arr = explode('_', $character);
@@ -111,17 +111,17 @@ class mysqls extends AmysqlModel
 		Return $this -> _query($sql);
 	}
 
-	// 创建权限
+	// Creat Grant
 	function create_grant($dbname, $user_name, $user_password, $user_host, $grant)
 	{
-		// 权限字段
+		// Grant Parameters
 		$field_arr = array(
 			'grant_read' => array('SELECT'),
 			'grant_write' => array('INSERT', 'UPDATE', 'DELETE'),
 			'grant_admin' => array('CREATE','ALTER','INDEX','DROP','CREATE TEMPORARY TABLES','SHOW VIEW','CREATE ROUTINE','ALTER ROUTINE','EXECUTE','CREATE VIEW', 'REFERENCES', 'LOCK TABLES')
 		);
 
-		// 权限设置
+		// Grant Parameters
 		$grant_list = array();
 		if (in_array('grant_all', $grant))
 		{
@@ -145,21 +145,21 @@ class mysqls extends AmysqlModel
 		Return ($this -> _query($sql_u) && $this -> _query($sql_p) && $this -> _query($sql_g));
 	}
 
-	// 取得数据库用户
+	// Get Databases User
 	function get_mysql_user_list()
 	{
 		$sql = "SELECT User, Host FROM mysql.user ORDER BY User ASC";
 		Return $this -> _all($sql);
 	}
 
-	// 修改MySQL用户密码
+	// Change MySQL Password
 	function set_mysql_password($user_name, $user_password)
 	{
 		$sql = "SET PASSWORD FOR '{$user_name -> User}'@'{$user_name -> Host }' = PASSWORD('{$user_password}')";
 		Return $this -> _query($sql);
 	}
 
-	// 删除MySQL用户
+	// Del MySQL User
 	function del_mysql_user($user_name, $user_password)
 	{
 		$sql = "DROP USER '{$user_name -> User}'@'{$user_name -> Host }'";
