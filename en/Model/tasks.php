@@ -3,14 +3,14 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object tasks 任务计划数据模型
+ * @param Object tasks  Tasks Model
  * Update:2013-11-01
  * 
  */
 
 class tasks extends AmysqlModel
 {
-	// 取得任务
+	// Get Tasks 
 	function get_task($id = null, $crontab_md5 = null)
 	{
 		$where = '';
@@ -19,7 +19,7 @@ class tasks extends AmysqlModel
 		$sql = "SELECT * FROM amh_crontab WHERE 1 $where ";
 		Return $this -> _row($sql);
 	}
-	// 取得任务属性
+	//  Get Tasks Value
 	function get_task_value($tag)
 	{
 		foreach ($_POST as $key=>$val)
@@ -37,7 +37,7 @@ class tasks extends AmysqlModel
 			}
 		}
 	}
-	// 新增任务
+	// Add Tasks 
 	function insert_task()
 	{
 		$crontab_ssh = trim(Functions::trim_cmd($_POST['crontab_ssh']));
@@ -62,7 +62,7 @@ class tasks extends AmysqlModel
 		$crontab_md5 = md5($crontab_minute.$crontab_hour.$crontab_day.$crontab_month.$crontab_week.$crontab_ssh);
 		Return $this -> _insert('amh_crontab', array('crontab_minute' => $crontab_minute, 'crontab_hour' => $crontab_hour, 'crontab_day' => $crontab_day, 'crontab_month' => $crontab_month, 'crontab_week' => $crontab_week, 'crontab_ssh' => $crontab_ssh, 'crontab_type' => $crontab_type, 'crontab_md5' => $crontab_md5));
 	}
-	// 删除任务
+	// Del Tasks 
 	function del_task($id)
 	{
 		$task = $this -> get_task($id);
@@ -77,7 +77,7 @@ class tasks extends AmysqlModel
 		Return !$status;
 		
 	}
-	// 保存任务
+	// Save Tasks 
 	function save_task($id)
 	{
 		$task = $this -> get_task($id);
@@ -109,7 +109,7 @@ class tasks extends AmysqlModel
 		}
 		Return false;
 	}
-	// 取得任务列表
+	//  Get Tasks List
 	function get_task_list()
 	{
 		$cmd = 'amh crontab list';
