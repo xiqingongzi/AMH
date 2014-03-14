@@ -3,14 +3,14 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object Functions 面板常用函数类
+ * @param Object Functions Panel Function
  * Update:2013-11-01
  * 
  */
 
 class Functions
 {
-	// 过滤结果数据
+	// Filter Result Data
 	function trim_result($result)
 	{
 		$result = trim($result);
@@ -24,7 +24,7 @@ class Functions
 		Return $result;
 	}
 
-	// 命令过滤
+	// Command Filter
 	function trim_cmd($cmd)
 	{
 		$cmd = str_replace(array(';', '&', '|', '`'), ' ', trim($cmd));
@@ -33,7 +33,7 @@ class Functions
 		Return $cmd;
 	}
 	
-	// 分页页码
+	// page Nav
 	function page ($name, $total_num, $total_page, $page, $set_url = null)
 	{
 		$uri = explode('?', $_SERVER['REQUEST_URI']);
@@ -94,7 +94,7 @@ class Functions
 	}
 	
 	
-	// 面板检查登录
+	// Panel Check Login
 	function CheckLogin()
 	{
 		if (!isset($_SESSION['amh_user_name']) || empty($_SESSION['amh_user_name']))
@@ -104,7 +104,7 @@ class Functions
 		}
 		else
 		{
-			// CSRF防范
+			// CSRF 
 			if(($_SESSION['amh_config']['OpenCSRF']['config_value'] == 'on') && (!isset($_REQUEST['amh_token']) || $_REQUEST['amh_token'] != $_SESSION['amh_token']) )
 			{
 				$_SESSION['CSRF_Url'] = trim(_Http, '/') . $_SERVER['REQUEST_URI'];
@@ -114,7 +114,7 @@ class Functions
 		}
 	}
 
-	// 取得模块信息&评分
+	// Get Module Info&Score
 	function get_module_score()
 	{
 		if (isset($_SESSION['module_score']))
@@ -138,7 +138,7 @@ class Functions
 		$_SESSION['module_score'] = $module_score;
 	}
 	
-	// 取得已安装的模块
+	// Get Installed Modules
 	function get_module_available()
 	{
 		// if (isset($_SESSION['module_available'])) Return;
