@@ -3,7 +3,7 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object indexs 面板前台数据模型
+ * @param Object indexs Panel Index Model
  * Update:2013-11-01
  * 
  */
@@ -11,7 +11,7 @@
 class indexs extends AmysqlModel
 {
 
-	// 登录验证
+	// Login Validate
 	function logins($user, $password)
 	{
 		$password = md5(md5($password.'_amysql-amh'));
@@ -22,7 +22,7 @@ class indexs extends AmysqlModel
 		Return false;
 	}
 
-	// 是否允许登录
+	// Wether Permit Login
 	function login_allow($amh_config)
 	{
 		$LoginErrorLimit = (int)$amh_config['LoginErrorLimit']['config_value'];
@@ -43,7 +43,7 @@ class indexs extends AmysqlModel
 		Return array('status' => true, 'login_error_sum' => $num);
 	}
 
-	// 登录写记录
+	// Login Log insert
 	function login_insert($login_success, $user_name)
 	{
 		$login_ip = $_SERVER["REMOTE_ADDR"];
@@ -59,7 +59,7 @@ class indexs extends AmysqlModel
 		}
 	}
 
-	// 日志写记录
+	// Log Insert
 	function log_insert($txt)
 	{
 		if(empty($txt)) return;
