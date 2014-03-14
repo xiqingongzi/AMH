@@ -3,7 +3,7 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object hosts 虚拟主机数据模型
+ * @param Object hosts VirtualHost Model
  * Update:2013-11-01
  * 
  */
@@ -11,21 +11,21 @@
 class hosts extends AmysqlModel
 {
 
-	// 主机列表
+	// HostList
 	function host_list()
 	{
 		$sql = "SELECT * FROM amh_host ORDER BY host_id ASC";
 		Return $this -> _all($sql);
 	}
 
-	// 取得主机
+	// GetHost
 	function get_host($host_domain)
 	{
 		$sql = "SELECT * FROM amh_host WHERE host_domain = '$host_domain'";
 		Return $this -> _row($sql);
 	}
 
-	// 主机列表更新
+	// HostListUpdate
 	function host_update()
 	{
 		$host_list = array();
@@ -136,7 +136,7 @@ class hosts extends AmysqlModel
 		}
 	}
 
-	//新增主机(SSH)
+	//Add Host(SSH)
 	function host_insert_ssh($data)
 	{
 		$data['host_php_fpm'] = "$data[php_fpm_pm],$data[min_spare_servers],$data[start_servers],$data[max_spare_servers],$data[max_children]";
@@ -150,7 +150,7 @@ class hosts extends AmysqlModel
 		Return array(!$status, $tmp);
 	}
 
-	// 新增主机
+	// Add Host
 	function host_insert($data)
 	{
 		$data['host_php_fpm'] = "$data[php_fpm_pm],$data[min_spare_servers],$data[start_servers],$data[max_spare_servers],$data[max_children]";
@@ -165,7 +165,7 @@ class hosts extends AmysqlModel
 		Return $this -> _insert('amh_host', $insert_data);
 	}
 
-	// 编辑主机
+	// EditHost
 	function edit_host()
 	{
 		$data_name = array('host_domain', 'host_server_name',  'host_index_name', 'host_rewrite', 'host_error_page', 'host_log', 'host_error_log', 'host_subdirectory', 'host_php_fpm');
@@ -182,7 +182,7 @@ class hosts extends AmysqlModel
 		Return array(!$status, $tmp);
 	}
 
-	// 删除主机(SSH)
+	// DeleteHost(SSH)
 	function host_del_ssh($host_domain)
 	{
 		$cmd = "amh host del $host_domain";
@@ -192,7 +192,7 @@ class hosts extends AmysqlModel
 	}
 
 
-	// 取得php配置参数值
+	// GetphpSetting Parameters
 	function get_php_param($param_list)
 	{
 		$cmd = "amh cat_php_ini";
