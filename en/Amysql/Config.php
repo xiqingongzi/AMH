@@ -1,22 +1,22 @@
 <?php
 
-// 系统基本配置 **********************************************
+// System Setting **********************************************
 
-$Config['HttpPath'] = false;				// 是否开启 index.php/Controller/Action/name/value 模式
-$Config['Filter'] = true;					// 是否过滤 $_GET、$_POST、$_COOKIE、$_FILES
-$Config['XSS'] = true;						// 是否开启 XSS防范
-$Config['SessionStart'] = true;				// 是否开启 SESSION
-$Config['DebugPhp'] = false;				// 是否开启PHP运行报错信息
-$Config['DebugSql'] = false;				// 是否开启源码调试Sql语句
-$Config['CharSet'] = 'utf-8';				// 设置网页编码
-$Config['UrlControllerName'] = 'c';			// 自定义控制器名称 例如: index.php?c=index
-$Config['UrlActionName'] = 'a';				// 自定义方法名称 例如: index.php?c=index&a=IndexAction						
+$Config['HttpPath'] = false;				// Active index.php/Controller/Action/name/value Module
+$Config['Filter'] = true;					// Active Filter $_GET、$_POST、$_COOKIE、$_FILES
+$Config['XSS'] = true;						// Active XSS Security
+$Config['SessionStart'] = true;				// Active SESSION
+$Config['DebugPhp'] = false;				// Active PHP Debug Info
+$Config['DebugSql'] = false;				// Active MySQL Debug Info
+$Config['CharSet'] = 'utf-8';				// Set Character
+$Config['UrlControllerName'] = 'c';			// Custom Controller Name Example: index.php?c=index
+$Config['UrlActionName'] = 'a';				// Custom Action Name Example: index.php?c=index&a=IndexAction						
 
 
-// 默认使用数据库配置 *****************************************
+// Default MySQL Database Set *****************************************
 
-$Config['ConnectTag'] = 'default';				// Mysql连接标识 可同时进行多连接
-$Config['Host'] = 'localhost';					// Mysql主机地址
-$Config['User'] = 'root';						// Mysql用户
-$Config['Password'] = 'MysqlPass';				// Mysql密码
-$Config['DBname'] = 'amh';						// 数据库名称
+$Config['ConnectTag'] = 'default';				// MySQL Connect Tags,Support Multi-Connection
+$Config['Host'] = 'localhost';					// Mysql Host Address
+$Config['User'] = 'root';						// Mysql Username
+$Config['Password'] = 'MysqlPass';				// Mysql Password
+$Config['DBname'] = 'amh';						// Database Name
