@@ -3,7 +3,7 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object config 面板配置控制器
+ * @param Object config Panel Settings Config
  * Update:2013-11-01
  * 
  */
@@ -15,7 +15,7 @@ class config extends AmysqlController
 	public $notice = null;
 	public $top_notice = null;
 
-	// 载入数据模型(Model)
+	// Load Data Model
 	function AmysqlModelBase()
 	{
 		if($this -> indexs) return;
@@ -24,16 +24,16 @@ class config extends AmysqlController
 		$this -> configs = $this ->  _model('configs');
 	}
 
-	// 默认访问
+	// Default Setting
 	function IndexAction()
 	{
 		$this -> config_index();
 	}
 
-	// 面板配置
+	// Panel Setting
 	function config_index()
 	{
-		$this -> title = '面板配置 - AMH';
+		$this -> title = 'Panel Settings - AMH';
 		$this -> AmysqlModelBase();
 		Functions::CheckLogin();
 
@@ -53,15 +53,15 @@ class config extends AmysqlController
 			if($up_status)
 			{
 				$status = 'success';
-				$this -> notice = '系统配置更改成功。';
+				$this -> notice = 'Change System Settings Success!';
 			}
 			else
-				$this -> notice = '系统配置更改失败。';
+				$this -> notice = 'Change System Settings Failed.';
 		}
 
 		$AMHDomain_text = ($_POST['AMHDomain'] == 'Off') ? $_SERVER['SERVER_ADDR'] : $_POST['AMHDomain'];
 		if ($_POST['AMHListen'] != $_POST['AMHListen_old'] || ($_POST['AMHDomain'] != 'Off' && $_POST['AMHDomain'] != $_POST['AMHDomain_old']))
-			$this -> notice .= "面板允许域或端口已更改，请使用 {$AMHDomain_text}:{$_POST['AMHListen']} 访问。";
+			$this -> notice .= "The AMHdomain is change,Please Use {$AMHDomain_text}:{$_POST['AMHListen']} To control.";
 		
 		$amh_config = $this -> configs -> get_amh_config();
 		if($status == 'success')
@@ -77,10 +77,10 @@ class config extends AmysqlController
 		$this -> _view('config_index');
 	}
 
-	// 面板升级
+	// Upgrade
 	function config_upgrade()
 	{
-		$this -> title = '在线升级 - AMH';
+		$this -> title = 'Upgrade - AMH';
 		$this -> AmysqlModelBase();
 		Functions::CheckLogin();
 
@@ -109,12 +109,12 @@ class config extends AmysqlController
 			if ($result_status)
 			{
 				$this -> status = 'success';
-				$this -> notice = "$UpgradeName 升级更新成功。";
+				$this -> notice = "$UpgradeName Upgrade Done.";
 			}
 			else
 			{
 				$this -> status = 'error';
-				$this -> notice = "$UpgradeName 升级更新失败。";
+				$this -> notice = "$UpgradeName Upgrade Failed";
 			}
 
 			$this -> indexs -> log_insert($this -> notice);
@@ -126,7 +126,7 @@ class config extends AmysqlController
 		$this -> _view('config_upgrade');
 	}
 
-	// 更新提示
+	// Check Upgrade
 	function upgrade_notice()
 	{
 		$this -> AmysqlModelBase();
