@@ -3,7 +3,7 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object backup 面板备份控制器
+ * @param Object backup Panel Backup Controller
  * Update:2013-09-05
  * 
  */
@@ -15,7 +15,7 @@ class backup extends AmysqlController
 	public $notice = null;
 	public $top_notice = null;
 
-	// 载入数据模型(Model)
+	// Load Data Model
 	function AmysqlModelBase()
 	{
 		if($this -> indexs) return;
@@ -24,16 +24,16 @@ class backup extends AmysqlController
 		$this -> backups = $this ->  _model('backups');
 	}
 
-	// 默认访问
+	// Default Action
 	function IndexAction()
 	{
 		$this -> backup_list();
 	}
 	
-	// 数据备份列表
+	// Data Backup List
 	function backup_list()
 	{
-		$this -> title = '备份列表 - 备份 - AMH';
+		$this -> title = 'BackUps List - BackUp - AMH';
 		$this -> AmysqlModelBase();
 		Functions::CheckLogin();
 
@@ -56,7 +56,7 @@ class backup extends AmysqlController
 				$cmd = Functions::trim_cmd($cmd);
 				$result = shell_exec($cmd);
 				$this -> status = 'success';
-				$this -> notice = "删除备份文件({$file}.amh)执行完成。";
+				$this -> notice = "Delete File ({$file}.amh) Done";
 			}
 			
 		}
@@ -68,7 +68,7 @@ class backup extends AmysqlController
 		$backup_list = $this -> backups -> get_backup_list($page, $page_sum);
 
 		$total_page = ceil($backup_list['sum'] / $page_sum);						
-		$page_list = Functions::page('BackupList', $backup_list['sum'], $total_page, $page, 'c=backup&a=backup_list&category=backup_list');		// 分页列表
+		$page_list = Functions::page('BackupList', $backup_list['sum'], $total_page, $page, 'c=backup&a=backup_list&category=backup_list');		// PageNavList
 
 		$this -> page = $page;
 		$this -> total_page = $total_page;
@@ -80,16 +80,16 @@ class backup extends AmysqlController
 	}
 
 	
-	// 远程设置
+	// Remote Settings
 	function backup_remote()
 	{
-		$this -> title = '远程设置 - 备份 - AMH';
+		$this -> title = 'Remote Settings - Backup - AMH';
 		$this -> AmysqlModelBase();
 		Functions::CheckLogin();
 		$this -> status = 'error';
 		$input_item = array('remote_type', 'remote_status', 'remote_ip', 'remote_path', 'remote_user', 'remote_password');
 
-		// 连接测试
+		// Connect Test
 		if (isset($_GET['check']))
 		{
 			$id = (int)$_GET['check'];
@@ -107,7 +107,7 @@ class backup extends AmysqlController
 			}
 			exit();
 		}
-		// 保存远程配置
+		// Save Remote Settings
 		if (isset($_POST['save']))
 		{
 			$save = true;
@@ -115,7 +115,7 @@ class backup extends AmysqlController
 			{
 				if(empty($_POST[$val]))
 				{
-					$this -> notice = '新增远程备份配置失败，请填写完整数据，*号为必填项。';
+					$this -> notice = 'Add Remote Settings Failed,Please InPut EveryBlock，* Is must Be Filled.';
 					$save = false;
 				}
 			}
@@ -125,15 +125,15 @@ class backup extends AmysqlController
 				if ($id)
 				{
 					$this -> status = 'success';
-					$this -> notice = 'ID:' . $id . ' 新增远程备份配置成功。';
+					$this -> notice = 'ID:' . $id . ' Add Remote Settings Success.';
 					$_POST = array();
 				}
 				else
-					$this -> notice = ' 新增远程备份配置失败。';
+					$this -> notice = ' Add Remote Settings Failed.';
 			}
 		}
 
-		// 删除远程配置
+		// Delete Remote Settings
 		if (isset($_GET['del']))
 		{
 			$id = (int)$_GET['del'];
@@ -143,14 +143,14 @@ class backup extends AmysqlController
 				if ($result)
 				{
 					$this -> status = 'success';
-					$this -> top_notice = 'ID:' . $id . ' 删除远程备份配置成功。';
+					$this -> top_notice = 'ID:' . $id . ' Delete Remote BackUp Settings Success.';
 				}
 				else
-					$this -> top_notice = 'ID:' . $id . ' 删除远程备份配置失败。';
+					$this -> top_notice = 'ID:' . $id . ' Delete Remote BackUpSettingsFailed.';
 			}
 		}
 
-		// 编辑远程配置
+		// edit Remote Settings
 		if (isset($_GET['edit']))
 		{
 			$id = (int)$_GET['edit'];
@@ -161,7 +161,7 @@ class backup extends AmysqlController
 			}
 		}
 
-		// 保存编辑远程配置
+		// Save edited Remote Settings
 		if (isset($_POST['save_edit']))
 		{
 			$id = $_POST['remote_id'] = (int)$_POST['save_edit'];
@@ -170,7 +170,7 @@ class backup extends AmysqlController
 			{
 				if(empty($_POST[$val]) && $val != 'remote_password')
 				{
-					$this -> notice = 'ID:' . $id . ' 编辑远程备份配置失败。*号为必填项。';
+					$this -> notice = 'ID:' . $id . ' edit Remote BackUp Settings Failed.';
 					$save = false;
 					$this -> edit_remote = true;
 				}
@@ -181,12 +181,12 @@ class backup extends AmysqlController
 				if ($result)
 				{
 					$this -> status = 'success';
-					$this -> notice = 'ID:' . $id . ' 编辑远程备份配置成功。';
+					$this -> notice = 'ID:' . $id . ' edit  Remote BackUp Settings Success.';
 					$_POST = array();
 				}
 				else
 				{
-					$this -> notice = 'ID:' . $id . ' 编辑远程备份配置失败。';
+					$this -> notice = 'ID:' . $id . ' edit  Remote BackUp Settings Failed.';
 					$this -> edit_remote = true;
 				}
 			}
@@ -198,10 +198,10 @@ class backup extends AmysqlController
 		$this -> _view('backup_remote');
 	}
 
-	// 即时备份
+	// BackUp Now
 	function backup_now()
 	{
-		$this -> title = '即时备份 - 备份 - AMH';
+		$this -> title = 'BackUp - BackUp - AMH';
 		$this -> AmysqlModelBase();
 		Functions::CheckLogin();
 		$this -> status = 'error';
@@ -215,7 +215,7 @@ class backup extends AmysqlController
 
 			if ((!empty($_POST['backup_password2']) || !empty($_POST['backup_password'])) && $_POST['backup_password'] != $_POST['backup_password2'])
 			{
-				$this -> notice = ' 两次密码不一致，请确认。' ;
+				$this -> notice = ' The Two Password Is Not Match' ;
 			}
 			else
 			{
@@ -242,13 +242,13 @@ class backup extends AmysqlController
 				if ($result_status)
 				{
 					$this -> status = 'success';
-					$this -> notice = $result . ' 已成功创建备份文件。';
+					$this -> notice = $result . ' Create BackUp Files Done.';
 					$_POST = array();
 				}
 				else
 				{
 					$this -> status = 'error';
-					$this -> notice = $result . ' 备份文件创建失败。' ;
+					$this -> notice = $result . ' BackUp Files Create Failed.' ;
 				}
 				$notice = json_encode($this -> notice);
 				echo "<script>amh_cmd_ing();backup_ing_status = {$backup_ing_status}; backup_result = {$notice}; backup_end();</script>$line</div>";
@@ -262,10 +262,10 @@ class backup extends AmysqlController
 	}
 
 	
-	// 一键还原
+	// OneKeyRevert 
 	function backup_revert()
 	{
-		$this -> title = '一键还原 - 备份 - AMH';
+		$this -> title = 'Revert  - BackUp - AMH';
 		$this -> AmysqlModelBase();
 		Functions::CheckLogin();
 		$this -> status = 'error';
@@ -302,13 +302,13 @@ class backup extends AmysqlController
 			if ($result_status)
 			{
 				$this -> status = 'success';
-				$this -> notice = $backup_file . ' 数据一键还原成功。';
+				$this -> notice = $backup_file . '  Data  Revert Success.';
 				$_POST = array();
 			}
 			else
 			{
 				$this -> status = 'error';
-				$this -> notice = $result . $backup_file . ' 一键还原失败。' ;
+				$this -> notice = $result . $backup_file . ' Revert Failed.' ;
 			}
 			$notice = json_encode($this -> notice);
 			echo "<script>amh_cmd_ing();revert_ing_status = {$revert_ing_status}; revert_result = {$notice}; revert_end();</script>$line</div>";
