@@ -3,7 +3,7 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object account 管理员控制器
+ * @param Object account AccountController
  * Update:2013-11-01
  * 
  */
@@ -15,7 +15,7 @@ class account extends AmysqlController
 	public $notice = null;
 	public $top_notice = null;
 
-	// 载入数据模型(Model)
+	// Load Data Model
 	function AmysqlModelBase()
 	{
 		if($this -> indexs) return;
@@ -24,16 +24,16 @@ class account extends AmysqlController
 		$this -> accounts = $this ->  _model('accounts');
 	}
 
-	// 默认访问
+	// Default Action
 	function IndexAction()
 	{
 		$this -> account_log();
 	}
 
-	// 操作日志
+	// Account Logs
 	function account_log()
 	{
-		$this -> title = '操作日志 - 账号 - AMH';
+		$this -> title = 'Operation Logs - Account - AMH';
 		$this -> AmysqlModelBase();
 		Functions::CheckLogin();
 
@@ -41,7 +41,7 @@ class account extends AmysqlController
 		$page_sum = 20;
 		$log_list = $this -> accounts -> log_list($page, $page_sum);
 		$total_page = ceil($log_list['sum'] / $page_sum);						
-		$page_list = Functions::page('AccountLog', $log_list['sum'], $total_page, $page);		// 分页列表
+		$page_list = Functions::page('AccountLog', $log_list['sum'], $total_page, $page);		// PageNavList
 
 		$this -> page = $page;
 		$this -> total_page = $total_page;
@@ -50,10 +50,10 @@ class account extends AmysqlController
 		$this -> _view('account_log');
 	}
 
-	// 登录日志
+	// Login Logs
 	function account_login_log()
 	{
-		$this -> title = '登录日志 - 账号 - AMH';
+		$this -> title = 'Login Log - Account - AMH';
 		$this -> AmysqlModelBase();
 		Functions::CheckLogin();
 
@@ -61,7 +61,7 @@ class account extends AmysqlController
 		$page_sum = 20;
 		$login_list = $this -> accounts -> login_list($page, $page_sum);
 		$total_page = ceil($login_list['sum'] / $page_sum);						
-		$page_list = Functions::page('AccountLog', $login_list['sum'], $total_page, $page);		// 分页列表
+		$page_list = Functions::page('AccountLog', $login_list['sum'], $total_page, $page);		// PageNavList
 
 		$this -> page = $page;
 		$this -> total_page = $total_page;
@@ -70,10 +70,10 @@ class account extends AmysqlController
 		$this -> _view('account_login_log');
 	}
 
-	// 更改密码
+	// Change Password
 	function account_pass()
 	{
-		$this -> title = '更改密码 - 账号 - AMH';
+		$this -> title = 'ChangePassword - Account - AMH';
 		$this -> AmysqlModelBase();
 		Functions::CheckLogin();
 
@@ -89,12 +89,13 @@ class account extends AmysqlController
 			if ($status)
 			{
 				if(empty($new_user_password) || empty($new_user_password2))
-					$error = '新密码与确认新密码不能为空。';
+					$error = 'Password Could not Empty.';
 				elseif($new_user_password != $new_user_password2)
-					$error = '新密码与确认新密码不一致。';
+					$error = 'The Two Password Is Not Matched';
 			}
 			else
-				$error = '旧密码错误。';
+				$error = 'Old Password Is Wrong
+				';
 
 			if (empty($error))
 			{
@@ -102,10 +103,10 @@ class account extends AmysqlController
 				if($status)
 				{
 					$this -> status = 'success';
-					$this -> notice = '更改密码成功。';
+					$this -> notice = 'Change Password Success!';
 				}
 				else
-					$this -> notice = '更改密码失败。';
+					$this -> notice = 'Change Password Failed!';
 			}
 			else
 				$this -> notice = $error;
