@@ -4,7 +4,7 @@
  *
  * Amysql PHPMVC - AMP 1.5
  * Amysql.com 
- * @param Object $AmysqlProcess 网站进程
+ * @param Object $AmysqlProcess Website Process
  *
  */
 class Amysql {
@@ -15,7 +15,7 @@ class Amysql {
 	{
 		global $Config;
 		ini_set("magic_quotes_runtime", false);
-		($Config['DebugPhp'] && error_reporting(E_ALL)) || error_reporting(0);						// 是否报错
+		($Config['DebugPhp'] && error_reporting(E_ALL)) || error_reporting(0);						// Whether Report Errors
 		($Config['SessionStart'] && session_start());												// SESSION
 		(!empty($Config['CharSet']) && header('Content-type: text/html;charset=' . $Config['CharSet']));
 
@@ -41,11 +41,11 @@ class Amysql {
 
 /************************************************
  *
- * 总进程对象
- * @param Object $ControllerName	控制器对象
- * @param string $ControllerName	控制器名称
- * @param string $ActionName		方法名称
- * @param string $ControllerFile	控制器文件
+ * Process Object
+ * @param Object $ControllerName	Controller Object
+ * @param string $ControllerName	Controller Name
+ * @param string $ActionName		 Action Name
+ * @param string $ControllerFile	Controller File
  *
  */
 class AmysqlProcess {
@@ -66,8 +66,8 @@ class AmysqlProcess {
 				for ($i=2; $i<$GETCount; ++$i) $_GET[$GETParam[$i]] = isset($GETParam[++$i]) ?  $GETParam[$i] : '';
 		}
 
-		$magic_quotes = function_exists('get_magic_quotes_gpc') ? get_magic_quotes_gpc() : false;	// 环境是否有过滤
-		if($Config['Filter'])	// 开启过滤
+		$magic_quotes = function_exists('get_magic_quotes_gpc') ? get_magic_quotes_gpc() : false;	// Is Environment Filter
+		if($Config['Filter'])	// Active Filter
 		{
 			( !$magic_quotes && (Amysql::filter($_GET, 'addslashes') && Amysql::filter($_POST, 'addslashes') && Amysql::filter($_COOKIE, 'addslashes') && Amysql::filter($_FILES, 'addslashes')) );	
 		}
@@ -86,19 +86,19 @@ class AmysqlProcess {
 	{
 		((is_file($this -> ControllerFile) && include_once($this -> ControllerFile)) || 
 		(is_file(_Controller . 'index.php') && include_once(_Controller . 'index.php')) ||
-		Amysql::AmysqlNotice($this -> ControllerFile . ' 控制器文件不存在'));
+		Amysql::AmysqlNotice($this -> ControllerFile . ' Controller Files Is Not Exist'));
 
 		(class_exists($this -> ControllerName) || (($this -> ControllerName = 'index') && class_exists('index')) || 
-		Amysql::AmysqlNotice($this -> ControllerName . ' 控制器不存在'));
+		Amysql::AmysqlNotice($this -> ControllerName . ' Controller Is Not Exist'));
 
-		$methods = get_class_methods($this -> ControllerName);			// 获取类中的方法名 
+		$methods = get_class_methods($this -> ControllerName);			// Get Methods From Class 
 
 		(in_array($this -> ActionName, $methods, true) || 
 		(($this -> ActionName = 'IndexAction') && in_array($this -> ActionName, $methods, true)) ||
-		Amysql::AmysqlNotice($this -> ActionName . ' 方法不存在'));
+		Amysql::AmysqlNotice($this -> ActionName . ' Methods Is Not Exist'));
 
-		$this -> AmysqlController = new $this->ControllerName($_GET);	// 实例控制器
-		$this -> AmysqlController -> {$this -> ActionName}();			// 执行方法
+		$this -> AmysqlController = new $this->ControllerName($_GET);	// Instant controller
+		$this -> AmysqlController -> {$this -> ActionName}();			// Run Methods
 	}
 
 
@@ -107,10 +107,10 @@ class AmysqlProcess {
 
 /************************************************
  *
- * 控制器逻辑层 (C)
- * @param Object $DB				数据库对象
- * @param Array	 $DBConfig			链接配置
- * @param Array $AmysqlModel		模型对象集
+ * Controller Logic (C)
+ * @param Object $DB				Database Object
+ * @param Array	 $DBConfig			Data Connection Setting
+ * @param Array $AmysqlModel		Model Setting
  * @param Object $AmysqlTemplates	模板对象
  * @param Array $EchoData			调试数据
  *

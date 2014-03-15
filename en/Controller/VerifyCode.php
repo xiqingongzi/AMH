@@ -3,7 +3,7 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object VerifyCode 验证码控制器
+ * @param Object VerifyCode Controller
  * Update:2013-11-01
  * 
  */
@@ -21,17 +21,17 @@ class VerifyCode extends AmysqlController
 		$width = 115;
 		$height = 29;
 
-		$im = ImageCreate($width,$height);  // 创建图形   
-		ImageColorAllocate($im,255,255,255); // 填充背景颜色为白色   
+		$im = ImageCreate($width,$height);  // Create Image   
+		ImageColorAllocate($im,255,255,255); // Fill White as Background Color   
 
-		// 用淡色给图形添加杂色   
+		// Use Tingle to Disturbe robot
 		for ($i=0; $i<100; $i++) 
 		{   
 			$pxcolor = ImageColorAllocate($im,230,104,66);   
 			ImageSetPixel($im,mt_rand(0,$width),mt_rand(0,$height),$pxcolor);   
 		}   
 
-		// 用深色调绘制边框   
+		// Use Deep Color Fill border   
 		$bordercolor = ImageColorAllocate($im,255,255,255);   
 		ImageRectangle($im,0,0,$width-1,$height-1,$bordercolor);   
 
@@ -48,7 +48,7 @@ class VerifyCode extends AmysqlController
 		$code_str = str_shuffle($str);
 		$code = str_split(substr($code_str, 0, 5));
 
-		// 干扰字符
+		// Disturbed Character
 		$offset = rand(10,30);   
 		foreach ($code as $char) 
 		{   
@@ -58,7 +58,7 @@ class VerifyCode extends AmysqlController
 			$offset += rand(5,10);   
 		}
 
-		// 禁止缓存   
+		// Cache Baned   
 		header("pragma:no-cache\r\n");   
 		header("Cache-Control:no-cache\r\n");   
 		header("Expires:0\r\n");   
