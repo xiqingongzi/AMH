@@ -67,7 +67,7 @@ class index extends AmysqlController
 							exit();
 						}
 						$_POST['password'] = '';
-						$this -> LoginError = '账号或密码错误，登录失败。(' . ($login_allow['login_error_sum']+1) . '次)';
+						$this -> LoginError = 'Password Or Username Wrong!You Failed (' . ($login_allow['login_error_sum']+1) . 'Times.)';
 						$this -> login_error_sum = $login_allow['login_error_sum'];
 						$this -> indexs -> login_insert(0, $user);
 					}
@@ -75,7 +75,7 @@ class index extends AmysqlController
 			}
 			else
 			{
-			    $this -> LoginError = '登录出错已有' . $login_allow['login_error_sum'] . '次。当前禁止登录，下次允许登录时间:' . date('Y-m-d H:i:s', $login_allow['allow_time']);
+			    $this -> LoginError = 'Login failed' . $login_allow['login_error_sum'] . 'Times.Login Is Baned.Please Retry at' . date('Y-m-d H:i:s', $login_allow['allow_time']);
 			}
 		}
 
@@ -84,10 +84,10 @@ class index extends AmysqlController
 		exit();
 	}
 
-	// 面板主页
+	// Index Pages
 	function IndexAction()
 	{
-		$this -> title = '主页 - AMH';
+		$this -> title = 'Index - AMH';
 		$this -> AmysqlModelBase();
 		Functions::CheckLogin();
 		$_SESSION['amh_version'] = '4.2';
@@ -103,12 +103,12 @@ class index extends AmysqlController
 			if (!$status)
 			{
 				$this -> status = 'success';
-				$this -> notice = "$m " . $this -> action_name[$g] . '成功。';
+				$this -> notice = "$m " . $this -> action_name[$g] . 'Success.';
 			}
 			else
 			{
 			    $this -> status = 'error';
-				$this -> notice = "$m " . $this -> action_name[$g] . '失败。';
+				$this -> notice = "$m " . $this -> action_name[$g] . 'Failed.';
 			}
 		}
 		
@@ -117,7 +117,7 @@ class index extends AmysqlController
 	}
 
 
-	// 面板系统信息
+	// Panel System Panel
 	function infos()
 	{
 		$this -> AmysqlModelBase();
@@ -138,19 +138,19 @@ class index extends AmysqlController
 		$this -> _view('phpinfos');
 	}
 
-	// CSRF提示
+	// CSRF Alert
 	function index_csrf()
 	{
-		$this -> title = 'CSRF提示 - AMH';
+		$this -> title = 'CSRF Alert - AMH';
 		$this -> _view('index_csrf');
 	}
 			
 			
 
-	// 退出
+	// Quit
 	function logout()
 	{
-		$this -> title = '退出 - AMH';
+		$this -> title = 'Logout - AMH';
 		$_SESSION['amh_user_name'] = null;
 		$_SESSION['amh_user_id'] = null;
 		unset($_SESSION['module_score']);
@@ -159,7 +159,7 @@ class index extends AmysqlController
 	}
 
 
-	// 面板最新消息
+	// Panel  Notice
 	function ajax()
 	{
 		$this -> AmysqlModelBase();
@@ -179,7 +179,7 @@ class index extends AmysqlController
 		exit();
 	}
 
-	// 面板模块信息
+	// Module Notice
 	function module_ajax()
 	{
 		$this -> AmysqlModelBase();
