@@ -3,7 +3,7 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object index 面板前台&主页控制器
+ * @param Object index Controller
  * Update:2013-11-01
  * 
  */
@@ -12,11 +12,11 @@ class index extends AmysqlController
 {
 	public $indexs = null;
 	public $configs = null;
-	public $action_name = array('start' => '启动' , 'stop' => '停止' , 'reload' => '重载', 'restart' => '重启');
+	public $action_name = array('start' => 'Start' , 'stop' => 'Stop' , 'reload' => 'ReLoad', 'restart' => 'ReStart');
 	public $notice = null;
 	public $top_notice = null;
 
-	// 载入数据模型(Model)
+	// Load Data Model
 	function AmysqlModelBase()
 	{
 		if($this -> indexs) return;
@@ -26,10 +26,10 @@ class index extends AmysqlController
 	}
 
 
-	// 面板登录
+	// Panel Login
 	function login()
 	{
-		$this -> title = '登录 - AMH';
+		$this -> title = 'Login - AMH';
 		$this -> AmysqlModelBase();
 		$amh_config = $this -> configs -> get_amh_config();
 
@@ -37,7 +37,7 @@ class index extends AmysqlController
 		{
 			$login_allow = $this -> indexs -> login_allow($amh_config);
 
-			// 允许登录
+			// Login Permitted
 			if($login_allow['status'])
 			{
 				$user = $_POST['user'];
@@ -45,12 +45,12 @@ class index extends AmysqlController
 				$VerifyCode = $_POST['VerifyCode'];
 				if ($amh_config['VerifyCode']['config_value'] == 'on' && strtolower($VerifyCode) != $_SESSION['VerifyCode'])
 				{
-					$this -> LoginError = '验证码错误，请重新输入。';
+					$this -> LoginError = 'VerifyCode Not Matched.Please Retype';
 				}
 				else
 				{
 					if(empty($user) || empty($password))
-						$this -> LoginError = '请输入用户名与密码。';
+						$this -> LoginError = 'Please Input Username & Password';
 					else
 					{
 						$user_id = $this -> indexs -> logins($user, $password);

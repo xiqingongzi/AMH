@@ -3,7 +3,7 @@
 /************************************************
  * Amysql Host - AMH 4.2
  * Amysql.com 
- * @param Object ftp FTP管理控制器
+ * @param Object ftp FTP Controller
  * Update:2013-11-01
  * 
  */
@@ -15,7 +15,7 @@ class ftp extends AmysqlController
 	public $notice = null;
 	public $top_notice = null;
 
-	// 载入数据模型(Model)
+	// Load Data Model
 	function AmysqlModelBase()
 	{
 		if($this -> indexs) return;
@@ -24,13 +24,13 @@ class ftp extends AmysqlController
 		$this -> ftps = $this ->  _model('ftps');
 	}
 
-	// 默认访问
+	// Default Action
 	function IndexAction()
 	{
 		$this -> ftp_list();
 	}
 
-	// FTP账号列表
+	// FTP UserList
 	function ftp_list()
 	{
 		$this -> title = 'FTP - AMH';
@@ -39,7 +39,7 @@ class ftp extends AmysqlController
 
 		$this -> status = 'error';
 
-		// 删除ftp
+		// Del FTP Account
 		if (isset($_GET['del']))
 		{
 			$del_name = $_GET['del'];
@@ -52,17 +52,17 @@ class ftp extends AmysqlController
 					if ($result[0])
 					{
 						$this -> status = 'success';
-						$this -> top_notice = $del_name . ' : 删除FTP账号成功。';
+						$this -> top_notice = $del_name . ' : Delete FTP Account Success!';
 					}
 					else
-						$this -> top_notice = $del_name . ' : 删除FTP账号失败。' . implode(',', $result[1]);
+						$this -> top_notice = $del_name . ' : Delete FTP Account Failed.' . implode(',', $result[1]);
 				}
 				else
-				    $this -> top_notice = $del_name . ' : ssh FTP账号web端不可删除。';
+				    $this -> top_notice = $del_name . ' : ssh FTP Account Could Not delete In Web Panel';
 			}
 		}
 		
-		// 重写目录权限
+		// rewrite Auth
 		if (isset($_GET['chown']))
 		{
 			$chown_name = $_GET['chown'];
@@ -75,21 +75,21 @@ class ftp extends AmysqlController
 					if ($this -> ftps -> ftp_chown_ssh($chown_name))
 					{
 						$this -> status = 'success';
-						$this -> top_notice = $chown_name . ' : 重写目录权限' . $uidname . '成功。';
+						$this -> top_notice = $chown_name . ' : ReWrite Auth' . $uidname . 'Success!';
 					}
 					else
-						$this -> top_notice = $chown_name . ' : 重写目录权限' . $uidname . '失败。';
+						$this -> top_notice = $chown_name . ' : ReWrite Auth' . $uidname . 'Failed.';
 				}
 				else
-				    $this -> top_notice = $chown_name . ' : ssh FTP账号web端不可重写目录权限。';
+				    $this -> top_notice = $chown_name . ' : ssh FTP Account Could Not ReWrite Auth In WebPanel';
 			}
 		}
 
-		// 保存ftp
+		// Save ftp Account
 		if (isset($_POST['save']))
 		{
 			if (empty($_POST['ftp_name']) || empty($_POST['ftp_password']) || empty($_POST['ftp_root']) || empty($_POST['ftp_uid_name']))
-				$this -> notice = '账号密码与根目录与权限用户不能为空。';
+				$this -> notice = 'Username,Password,Auth Group Could not Empty.';
 			else
 			{
 				$_POST['ftp_name'] = substr($_POST['ftp_name'], 0, 20);
@@ -98,15 +98,15 @@ class ftp extends AmysqlController
 				{
 					$this -> ftps -> ftp_insert($_POST);
 					$this -> status = 'success';
-					$this -> notice = $_POST['ftp_name'] . ' : 新增FTP账号成功。';
+					$this -> notice = $_POST['ftp_name'] . ' : Add FTP Account Success!';
 					$_POST = array();
 				}
 				else
-					$this -> notice = $_POST['ftp_name'] . ' : 新增FTP账号失败。' . implode(',', $result[1]);
+					$this -> notice = $_POST['ftp_name'] . ' : Add Account Failed.' . implode(',', $result[1]);
 			}
 		}
 
-		// 编辑ftp
+		// Edit Account
 		if (isset($_GET['edit']))
 		{
 			$edit_name = $_GET['edit'];
@@ -121,12 +121,12 @@ class ftp extends AmysqlController
 			}
 			else
 			{
-			     $this -> top_notice = $edit_name . ' : ssh FTP账号web端不可编辑。';
+			     $this -> top_notice = $edit_name . ' : ssh FTP Account Could Not Edit On Web Panel.';
 				 $_POST = array();
 			}
 		}
 	
-		// 保存编辑ftp
+		// Save Edit ftp
 		if (isset($_POST['save_edit']))
 		{
 			$_POST['ftp_name'] = $ftp_name = $_POST['save_edit'];
@@ -138,12 +138,12 @@ class ftp extends AmysqlController
 				if ($result[0])
 				{
 					$status = true;
-					$top_notice = $ftp_name . ' : 编辑FTP账号成功。';
+					$top_notice = $ftp_name . ' : Edit FTP Account Success!';
 				}
 				else
 				{
 					$this -> status = 'error';
-					$top_notice = $ftp_name . ' : 编辑FTP账号失败。' . $result[0];
+					$top_notice = $ftp_name . ' : Edit FTP Account Failed.' . $result[0];
 				}
 				
 				if (!empty($_POST['ftp_password']))
@@ -151,12 +151,12 @@ class ftp extends AmysqlController
 					if ($result[1])
 					{
 						$status = true;
-						$top_notice .= $ftp_name . ' : 更改FTP密码成功。';
+						$top_notice .= $ftp_name . ' : Change FTP Password Success!';
 					}
 					else
 					{
 						$this -> status = 'error';
-						$top_notice .= $ftp_name . ' 更改FTP密码失败。' . $result[1];
+						$top_notice .= $ftp_name . ' Change FTP Password failed.' . $result[1];
 					}
 				}
 				if(isset($status)) 
